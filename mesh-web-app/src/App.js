@@ -1,25 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MeshConnectButton from './MeshConnectButton';
+import BrokerConnectButton from './BrokerConnectButton';
 
 const App = () => {
-  const authLink = 'some-auth-link';
-  const linkToken = 'some-link-token';
+  const [integrationId, setIntegrationId] = useState('');
+  const authLink = 'some-auth-link'; // Replace with your auth link
+  const linkToken = 'some-link-token'; // Replace with your link token
+
+  const handleIntegrationChange = (event) => {
+    setIntegrationId(event.target.value);
+  };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.heading}>Try Mesh Below</h1>
 
       <div style={styles.dropdownContainer}>
-        <label htmlFor="integrationType">Select Integration Type:</label>
-        <select id="integrationType" style={styles.dropdown}>
-          <option value="Type 1">Type 1</option>
-          <option value="Type 2">Type 2</option>
-          <option value="Type 3">Type 3</option>
+        <label htmlFor="integrationId">Select Broker: </label>
+        <select id="integrationId" value={integrationId} onChange={handleIntegrationChange} style={styles.dropdown}>
+          <option value="34aeb688-decb-485f-9d80-b66466783394">Metamask</option>
+          <option value="47624467-e52e-4938-a41a-7926b6c27acf">Coinbase</option>
+          {/* Add more options as needed */}
         </select>
       </div>
 
-      <MeshConnectButton authLink={authLink} linkToken={linkToken} />
-      {/* <MeshConnectButton2 authLink={authLink} linkToken={linkToken} integrationType={integrationType} /> */}
+      <div style={styles.buttonContainer}>
+        <BrokerConnectButton authLink={authLink} linkToken={linkToken} integrationId={integrationId} />
+      </div>
+
+      <div style={{ ...styles.buttonContainer, marginTop: '20px' }}>
+        <MeshConnectButton authLink={authLink} linkToken={linkToken} />
+      </div>
     </div>
   );
 };
@@ -38,6 +49,30 @@ const styles = {
   heading: {
     fontSize: '2rem',
     marginBottom: '20px'
+  },
+  dropdownContainer: {
+    marginBottom: '20px'
+  },
+  dropdown: {
+    padding: '10px',
+    fontSize: '1rem',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    cursor: 'pointer'
+  },
+  buttonContainer: {
+    display: 'flex',
+    marginBottom: '20px'
+  },
+  button: {
+    padding: '10px 20px',
+    fontSize: '1rem',
+    marginRight: '10px',
+    borderRadius: '5px',
+    border: 'none',
+    backgroundColor: '#007bff',
+    color: 'white',
+    cursor: 'pointer'
   }
 };
 

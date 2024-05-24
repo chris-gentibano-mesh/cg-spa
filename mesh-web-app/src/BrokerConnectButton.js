@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createLink } from '@meshconnect/web-link-sdk';
 import { MESH_CLIENTID, MESH_APIKEY, MESH_USERID, MESH_URL } from './utility/config';
 
-const MeshConnectButton = ({ authLink }) => {
+const BrokerConnectButton = ({ authLink, integrationId }) => {
   const [linkConnection, setLinkConnection] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
 
@@ -44,6 +44,7 @@ const MeshConnectButton = ({ authLink }) => {
         },
         body: JSON.stringify({
           userId: MESH_USERID,
+          integrationId: integrationId
         }),
       });
 
@@ -74,21 +75,22 @@ const MeshConnectButton = ({ authLink }) => {
   return (
     <div>
       <button onClick={handleButtonClick} style={styles.button}>
-        Open Mesh Catalogue
+        Open Specified Broker
       </button>
     </div>
   );
 };
 
 const styles = {
-  button: {
-    padding: '10px 20px',
-    fontSize: '1rem',
-    borderRadius: '5px',
-    border: 'none',
-    backgroundColor: '#007bff',
-    color: 'white',
-    cursor: 'pointer'
-  }
-};
-export default MeshConnectButton;
+    button: {
+      padding: '10px 20px',
+      fontSize: '1rem',
+      borderRadius: '5px',
+      border: 'none',
+      backgroundColor: '#007bff',
+      color: 'white',
+      cursor: 'pointer'
+    }
+  };
+  
+export default BrokerConnectButton;
