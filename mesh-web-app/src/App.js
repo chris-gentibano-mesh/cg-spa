@@ -7,7 +7,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Welcome to My App</h1>
+      <h1>Try Mesh below</h1>
       <MeshConnectButton authLink={authLink} linkToken={linkToken} />
     </div>
   );
