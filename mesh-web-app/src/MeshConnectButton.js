@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createLink } from '@meshconnect/web-link-sdk';
 import { MESH_CLIENTID, MESH_APIKEY, MESH_USERID, MESH_URL } from './utility/config';
 
-const MeshConnectButton = ({ authLink }) => {
+const MeshConnectButton = ({ authLink, setAuthToken}) => {
   const [linkConnection, setLinkConnection] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
 
@@ -10,8 +10,10 @@ const MeshConnectButton = ({ authLink }) => {
     const link = createLink({
       clientId: MESH_CLIENTID,
       onIntegrationConnected: (data) => {
-
         console.log('Integration connected:', data);
+        if (data && data.accessToken) {
+          setAuthToken(data.accessToken);
+        }
       },
       onExit: (error) => {
         if (error) {
@@ -24,7 +26,7 @@ const MeshConnectButton = ({ authLink }) => {
       }
     });
     setLinkConnection(link);
-  }, []);
+  }, [setAuthToken]);
 
   useEffect(() => {
     if (linkConnection && authLink) {

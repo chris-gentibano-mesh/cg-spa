@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import MeshConnectButton from './MeshConnectButton';
 import BrokerConnectButton from './BrokerConnectButton';
+import HoldingsButton from './HoldingsButton';
 
 const App = () => {
   const [integrationId, setIntegrationId] = useState('');
   const authLink = 'some-auth-link'; // Replace with your auth link
   const linkToken = 'some-link-token'; // Replace with your link token
+  const [authToken, setAuthToken] = useState(null); // State to hold the auth token
 
   const handleIntegrationChange = (event) => {
     setIntegrationId(event.target.value);
@@ -29,8 +31,12 @@ const App = () => {
       </div>
 
       <div style={{ ...styles.buttonContainer, marginTop: '20px' }}>
-        <MeshConnectButton authLink={authLink} linkToken={linkToken} />
+        <MeshConnectButton authLink={authLink} linkToken={linkToken} setAuthToken={setAuthToken}/>
       </div>
+
+      <div style={styles.spacing} />
+      Below is the button to review the User Holdings
+      <HoldingsButton authToken={authToken}/>
     </div>
   );
 };
