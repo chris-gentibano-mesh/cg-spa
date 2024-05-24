@@ -44,7 +44,6 @@ const MeshConnectButton = ({ authLink }) => {
         },
         body: JSON.stringify({
           userId: MESH_USERID,
-          // integrationId: "34aeb688-decb-485f-9d80-b66466783394", metamask integration id
         }),
       });
 
