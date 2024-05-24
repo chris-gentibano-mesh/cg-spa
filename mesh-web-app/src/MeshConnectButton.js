@@ -75,7 +75,7 @@ const MeshConnectButton = ({ authLink }) => {
   return (
     <div>
       <button onClick={handleButtonClick}>
-        Connect to Mesh
+        Open Mesh Catalogue
       </button>
     </div>
   );
