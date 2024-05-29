@@ -23,7 +23,7 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
   }, []);
 
   useEffect(() => {
-    if (linkConnection && authLink) {
+    if (linkConnection && linkToken) {
       linkConnection.openLink(linkToken);
     }
   }, [linkConnection, authLink, linkToken]);

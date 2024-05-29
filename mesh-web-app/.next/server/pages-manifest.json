@@ -4,5 +4,5 @@
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
   "/api/linktoken": "pages/api/linktoken.js",
-  "/api/brokerlinktoken": "pages/api/brokerlinktoken.js"
+  "/api/holdings": "pages/api/holdings.js"
 }

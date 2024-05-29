@@ -5,9 +5,9 @@ import HoldingsButton from '../components/HoldingsButton';
 
 const App = () => {
   const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // hard coded Metamask since this is the first choice
-  const authLink = useState(null); 
-  const linkToken = useState(null); 
-  const [authToken, setAuthToken] = useState(null); // State to hold the auth token
+  const [authLink, setAuthLink] = useState(null); 
+  const [linkToken, setLinkToken] = useState(null); 
+  const [authToken, setAuthToken] = useState(null);
 
   const handleIntegrationChange = (event) => {
     setIntegrationId(event.target.value);
@@ -27,11 +27,11 @@ const App = () => {
       </div>
 
       <div style={styles.buttonContainer}>
-        <BrokerConnectButton authLink={authLink} linkToken={linkToken} integrationId={integrationId} />
+        <BrokerConnectButton setAuthLink={setAuthLink} setLinkToken={setLinkToken} integrationId={integrationId} />
       </div>
 
       <div style={{ ...styles.buttonContainer, marginTop: '20px' }}>
-        <MeshConnectButton authLink={authLink} linkToken={linkToken} setAuthToken={setAuthToken}/>
+        <MeshConnectButton setAuthLink={setAuthLink} setLinkToken={setLinkToken} setAuthToken={setAuthToken}/>
       </div>
 
       <div style={styles.spacing} />
