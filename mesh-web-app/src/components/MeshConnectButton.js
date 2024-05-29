@@ -16,10 +16,8 @@ const MeshConnectButton = ({ authLink, setAuthToken }) => {
       },
       onExit: (error) => {
         if (error) {
-          // Handle error
           console.error('Link exited with error:', error);
         } else {
-          // Handle successful exit without error
           console.log('Link exited successfully');
         }
       }
@@ -57,7 +55,7 @@ const MeshConnectButton = ({ authLink, setAuthToken }) => {
   };
 
   const handleButtonClick = async () => {
-    await fetchLinkToken(); // Fetch the link token when the button is clicked
+    await fetchLinkToken();
     console.log("fetch done");
     console.log(linkConnection);
     console.log("link token:");

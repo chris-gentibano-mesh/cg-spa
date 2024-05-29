@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { createLink } from '@meshconnect/web-link-sdk';
-import { MESH_CLIENTID, MESH_APIKEY, MESH_URL, MESH_USERID } from '../utility/config';
 
 const BrokerConnectButton = ({ authLink, integrationId }) => {
   const [linkConnection, setLinkConnection] = useState(null);
@@ -8,17 +7,14 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
 
   useEffect(() => {
     const link = createLink({
-      clientId: MESH_CLIENTID,
+      clientId: process.env.NEXT_PUBLIC_MESH_CLIENTID,
       onIntegrationConnected: (data) => {
-
         console.log('Integration connected:', data);
       },
       onExit: (error) => {
         if (error) {
-          // Handle error
           console.error('Link exited with error:', error);
         } else {
-          // Handle successful exit without error
           console.log('Link exited successfully');
         }
       }
@@ -31,21 +27,16 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
       linkConnection.openLink(linkToken);
     }
   }, [linkConnection, authLink, linkToken]);
-  
+
   const fetchLinkToken = async () => {
     try {
-      const response = await fetch(MESH_URL + '/api/v1/linktoken', {
+      const response = await fetch('/api/brokerlinktoken', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/*+json',
-          'x-client-id': MESH_CLIENTID,
-          'x-client-secret': MESH_APIKEY, 
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          userId: MESH_USERID,
-          integrationId: integrationId
-        }),
+        body: JSON.stringify({ integrationId }),
       });
 
       if (!response.ok) {
@@ -53,7 +44,6 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
       }
 
       const data = await response.json();
-      console.log(data)
       setLinkToken(data.content.linkToken);
     } catch (error) {
       console.error('Error obtaining link token:', error);
@@ -61,13 +51,8 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
   };
 
   const handleButtonClick = async () => {
-    await fetchLinkToken(); // Fetch the link token when the button is clicked
-    console.log("fetch done")
-    console.log(linkConnection)
-    console.log("link token:")
-    console.log(linkToken)
+    await fetchLinkToken();
     if (linkConnection && linkToken) {
-      console.log("opening link")
       linkConnection.openLink(linkToken);
     }
   };
@@ -82,15 +67,15 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
 };
 
 const styles = {
-    button: {
-      padding: '10px 20px',
-      fontSize: '1rem',
-      borderRadius: '5px',
-      border: 'none',
-      backgroundColor: '#007bff',
-      color: 'white',
-      cursor: 'pointer'
-    }
-  };
-  
+  button: {
+    padding: '10px 20px',
+    fontSize: '1rem',
+    borderRadius: '5px',
+    border: 'none',
+    backgroundColor: '#007bff',
+    color: 'white',
+    cursor: 'pointer'
+  }
+};
+
 export default BrokerConnectButton;

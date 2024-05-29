@@ -22,14 +22,11 @@ const HoldingsButton = ({ authToken }) => {
         if (!accessToken) {
             throw new Error('No access token found');
         }
-      const response = await fetch(`${MESH_URL}/api/v1/holdings/get`, {
+      const response = await fetch(`api/holdings`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/*+json',
-          'x-client-id': MESH_CLIENTID,
-          'x-client-secret': MESH_APIKEY,
-          'type': 'Coinbase'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             'authToken': accessToken,

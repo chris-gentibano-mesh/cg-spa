@@ -4,9 +4,9 @@ import BrokerConnectButton from '../components/BrokerConnectButton';
 import HoldingsButton from '../components/HoldingsButton';
 
 const App = () => {
-  const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394');
-  const authLink = 'some-auth-link'; // Replace with your auth link
-  const linkToken = 'some-link-token'; // Replace with your link token
+  const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // hard coded Metamask since this is the first choice
+  const authLink = useState(null); 
+  const linkToken = useState(null); 
   const [authToken, setAuthToken] = useState(null); // State to hold the auth token
 
   const handleIntegrationChange = (event) => {
@@ -35,8 +35,16 @@ const App = () => {
       </div>
 
       <div style={styles.spacing} />
-      Below is the button to review the User Holdings
-      <HoldingsButton authToken={authToken}/>
+      <div>
+        Below is the button to review the User Holdings
+        {authToken ? (
+          <HoldingsButton authToken={authToken} />
+        ) : (
+          <div style={styles.errorContainer}>
+            <p style={styles.errorMessage}>Auth token is not set. Please use Catalog or Specified Broker first</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
