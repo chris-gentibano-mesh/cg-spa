@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MeshConnectButton from '../components/MeshConnectButton';
 import BrokerConnectButton from '../components/BrokerConnectButton';
 import HoldingsButton from '../components/HoldingsButton';
+import NetworksList from '../components/NetworksList';
 
 const App = () => {
   const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // hard coded Metamask since this is the first choice
@@ -71,11 +72,8 @@ const App = () => {
 
       {activeTab === 'transfers' && (
         <div style={styles.contentContainer}>
-          <h2>Transfers Tab Content</h2>
-          {/* Example transfer component */}
-          <div>
-            <p>Transfer content goes here...</p>
-          </div>
+          <h2>Networks</h2>
+            <NetworksList />
         </div>
       )}
     </div>

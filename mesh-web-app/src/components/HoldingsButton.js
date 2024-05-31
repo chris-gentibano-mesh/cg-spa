@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { MESH_CLIENTID, MESH_APIKEY, MESH_URL } from '../utility/config';
 
 const HoldingsButton = ({ authToken }) => {
   const [holdings, setHoldings] = useState(null);
