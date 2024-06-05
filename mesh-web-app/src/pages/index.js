@@ -31,10 +31,10 @@ const App = () => {
           Link
         </button>
         <button
-          style={activeTab === 'transfers' ? styles.activeTabButton : styles.tabButton}
-          onClick={() => handleTabChange('transfers')}
+          style={activeTab === 'networks' ? styles.activeTabButton : styles.tabButton}
+          onClick={() => handleTabChange('networks')}
         >
-          Transfers
+          Fetch Networks
         </button>
       </div>
 
@@ -70,7 +70,7 @@ const App = () => {
         </div>
       )}
 
-      {activeTab === 'transfers' && (
+      {activeTab === 'networks' && (
         <div style={styles.contentContainer}>
           <h2>Networks</h2>
             <NetworksList />

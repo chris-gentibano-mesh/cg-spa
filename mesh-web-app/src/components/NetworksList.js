@@ -34,6 +34,7 @@ const NetworksList = () => {
 
     return (
         <div style={styles.container}>
+            <h3> Fetch using the endpoint: /api/v1/transfers/managed/networks</h3>
             <button onClick={fetchNetworks} style={styles.button} disabled={loading}>
                 {loading ? 'Loading...' : 'Fetch Networks'}
             </button>
