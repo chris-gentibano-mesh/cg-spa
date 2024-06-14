@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { MESH_CLIENTID, MESH_APIKEY, MESH_URL } from '../utility/config';
 
 const HoldingsButton = ({ authToken }) => {
   const [holdings, setHoldings] = useState(null);
@@ -35,7 +34,7 @@ const HoldingsButton = ({ authToken }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch holdings');
+        throw new Error('Failed to fetch holdings, try to reconnect to a Broker');
       }
 
       const data = await response.json();
