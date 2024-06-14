@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import MeshConnectButton from '../components/MeshConnectButton';
 import BrokerConnectButton from '../components/BrokerConnectButton';
 import HoldingsButton from '../components/HoldingsButton';
 import NetworksList from '../components/NetworksList';
+import TransfersButton from '../components/TransfersButton';
 
 const App = () => {
   const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // hard coded Metamask since this is the first choice
-  const [authLink, setAuthLink] = useState(null); 
-  const [linkToken, setLinkToken] = useState(null); 
   const [authToken, setAuthToken] = useState(null);
-  const [activeTab, setActiveTab] = useState('connect'); // 'connect' or 'transfers'
+  const [authLink, setAuthLink] = useState(null);
+  const [linkToken, setLinkToken] = useState(null);
+  const [activeTab, setActiveTab] = useState('connect'); // use: 'connect' or 'transfers' 
+  const router = useRouter();
 
   const handleIntegrationChange = (event) => {
     setIntegrationId(event.target.value);
@@ -35,6 +38,12 @@ const App = () => {
           onClick={() => handleTabChange('networks')}
         >
           Fetch Networks
+        </button>
+        <button
+          style={activeTab === 'transfers' ? styles.activeTabButton : styles.tabButton}
+          onClick={() => handleTabChange('transfers')}
+        >
+          Transfers
         </button>
       </div>
 
@@ -74,6 +83,13 @@ const App = () => {
         <div style={styles.contentContainer}>
           <h2>Networks</h2>
             <NetworksList />
+        </div>
+      )}
+
+      {activeTab === 'transfers' && (
+        <div style={styles.contentContainer}>
+          <h2>Transfers</h2>
+            <TransfersButton />
         </div>
       )}
     </div>
