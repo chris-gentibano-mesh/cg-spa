@@ -11,7 +11,7 @@ const App = () => {
   const [authToken, setAuthToken] = useState(null);
   const [authLink, setAuthLink] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
-  const [activeTab, setActiveTab] = useState('connect'); // use: 'connect' or 'transfers' 
+  const [activeTab, setActiveTab] = useState('connect'); 
   const router = useRouter();
 
   const handleIntegrationChange = (event) => {
