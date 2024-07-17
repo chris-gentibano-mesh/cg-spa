@@ -1,15 +1,14 @@
 export default async function handler(req, res) {
-    const { MESH_URL, MESH_CLIENTID, MESH_APIKEY } = process.env;
     const { authToken, type } = req.body;
   
     try {
-      const response = await fetch(`${MESH_URL}/api/v1/holdings/get`, {
+      const response = await fetch(`${process.env.MESH_URL}/api/v1/holdings/get`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'x-client-id': MESH_CLIENTID,
-          'x-client-secret': MESH_APIKEY,
+          'x-client-id': process.env.MESH_CLIENTID,
+          'x-client-secret': process.env.MESH_APIKEY,
         },
         body: JSON.stringify({ authToken, type }),
       });

@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  const { MESH_APIKEY, MESH_CLIENTID, MESH_URL, MESH_USERID } = process.env;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
@@ -8,16 +7,16 @@ export default async function handler(req, res) {
   try {
     const { integrationId } = req.body;
 
-    const response = await fetch(`${MESH_URL}/api/v1/linktoken`, {
+    const response = await fetch(`${process.env.MESH_URL}/api/v1/linktoken`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/*+json',
-        'x-client-id': MESH_CLIENTID,
-        'x-client-secret': MESH_APIKEY,
+        'x-client-id': process.env.MESH_CLIENTID,
+        'x-client-secret': process.env.MESH_APIKEY,
       },
       body: JSON.stringify({
-        userId: MESH_USERID,
+        userId: process.env.MESH_USERID,
         integrationId: integrationId
       }),
     });
