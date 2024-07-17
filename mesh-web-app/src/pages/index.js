@@ -7,7 +7,7 @@ import TransfersButton from '../components/TransfersButton';
 import BrokerDropDown from '../components/BrokerDropDown';
 
 const App = () => {
-  const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // hard coded Metamask since this is the first choice
+  const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // Initial default value
   const [authToken, setAuthToken] = useState(null);
   const [authLink, setAuthLink] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
