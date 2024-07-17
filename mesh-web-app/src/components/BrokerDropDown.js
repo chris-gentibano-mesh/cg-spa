@@ -13,7 +13,7 @@ const BrokerDropDown = ({ integrationId, onIntegrationChange }) => {
 
   return (
     <div style={styles.dropdownContainer}>
-      <label htmlFor="integrationId">Select Broker: </label>
+      <label htmlFor="integrationId">Select Broker / Wallet: </label>
       <select
         id="integrationId"
         value={integrationId}
@@ -22,7 +22,8 @@ const BrokerDropDown = ({ integrationId, onIntegrationChange }) => {
       >
         <option value="34aeb688-decb-485f-9d80-b66466783394">Metamask</option>
         <option value="47624467-e52e-4938-a41a-7926b6c27acf">Coinbase</option>
-        {/* Add more options as needed */}
+        <option value="514a1d69-dd01-463a-9b72-997a9a4c45a9">Public</option>
+        <option value="ec84111c-0ff2-4033-94a4-eedb5ba8770e">WeBull</option>
       </select>
       <div style={styles.integrationIdContainer}>
         {integrationId && (
