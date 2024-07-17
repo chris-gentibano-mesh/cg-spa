@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MeshConnectButton from '../components/MeshConnectButton';
 import BrokerConnectButton from '../components/BrokerConnectButton';
 import HoldingsButton from '../components/HoldingsButton';
 import NetworksList from '../components/NetworksList';
 import TransfersButton from '../components/TransfersButton';
-import BrokerDropDown from '../components/BrokerDropDown'; 
+import BrokerDropDown from '../components/BrokerDropDown';
 
 const App = () => {
   const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // hard coded Metamask since this is the first choice
   const [authToken, setAuthToken] = useState(null);
   const [authLink, setAuthLink] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
-  const [activeTab, setActiveTab] = useState('connect'); 
-
-  const handleIntegrationChange = (event) => {
-    setIntegrationId(event.target.value);
-  };
+  const [activeTab, setActiveTab] = useState('connect');
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -48,10 +44,7 @@ const App = () => {
 
       {activeTab === 'Link' && (
         <div style={styles.contentContainer}>
-          <BrokerDropDown 
-            integrationId={integrationId} 
-            handleIntegrationChange={handleIntegrationChange} 
-          />
+          <BrokerDropDown integrationId={integrationId} onIntegrationChange={setIntegrationId} />
 
           <div style={styles.buttonContainer}>
             <BrokerConnectButton setAuthLink={setAuthLink} setLinkToken={setLinkToken} integrationId={integrationId} />

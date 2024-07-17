@@ -1,13 +1,14 @@
+// src/components/BrokerDropDown.js
 import React from 'react';
 
-const BrokerDropdown = ({ integrationId, handleIntegrationChange }) => {
+const BrokerDropDown = ({ integrationId, onIntegrationChange }) => {
   return (
     <div style={styles.dropdownContainer}>
       <label htmlFor="integrationId">Select Broker: </label>
       <select
         id="integrationId"
         value={integrationId}
-        onChange={handleIntegrationChange}
+        onChange={(e) => onIntegrationChange(e.target.value)}
         style={styles.dropdown}
       >
         <option value="34aeb688-decb-485f-9d80-b66466783394">Metamask</option>
@@ -31,4 +32,4 @@ const styles = {
   },
 };
 
-export default BrokerDropdown;
+export default BrokerDropDown;
