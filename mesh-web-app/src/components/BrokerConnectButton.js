@@ -61,7 +61,7 @@ const BrokerConnectButton = ({ setAuthLink, integrationId, customRequestBody }) 
   return (
     <div>
       <button onClick={handleButtonClick} style={styles.button}>
-        {customRequestBody ? 'Open Custom Body' : 'Open Specified Broker'}
+        {customRequestBody ? 'Open Link with Custom Body' : 'Open Link with  Specified Broker'}
       </button>
     </div>
   );

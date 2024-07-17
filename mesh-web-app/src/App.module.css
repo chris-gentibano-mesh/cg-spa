@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.heading {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.tabContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tabButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin: 0 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.activeTabButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin: 0 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #0056b3;
+  color: white;
+  cursor: pointer;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.holdingsContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.errorContainer {
+  background-color: #ffc2c2;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.errorMessage {
+  color: #ff0000;
+  margin: 0;
+}
