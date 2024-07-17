@@ -12,9 +12,14 @@ const App = () => {
   const [authLink, setAuthLink] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
   const [activeTab, setActiveTab] = useState('connect');
+  const [customRequestBody, setCustomRequestBody] = useState('');
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+  };
+
+  const handleRequestBodyChange = (event) => {
+    setCustomRequestBody(event.target.value);
   };
 
   return (
@@ -46,12 +51,31 @@ const App = () => {
         <div style={styles.contentContainer}>
           <BrokerDropDown integrationId={integrationId} onIntegrationChange={setIntegrationId} />
 
-          <div style={styles.buttonContainer}>
-            <BrokerConnectButton setAuthLink={setAuthLink} setLinkToken={setLinkToken} integrationId={integrationId} />
+          <div style={styles.inputContainer}>
+            <label htmlFor="requestBody">Request Body:</label>
+            <textarea
+              id="requestBody"
+              value={customRequestBody}
+              onChange={handleRequestBodyChange}
+              style={styles.textarea}
+            />
           </div>
 
           <div style={styles.buttonContainer}>
-            <MeshConnectButton setAuthLink={setAuthLink} setLinkToken={setLinkToken} setAuthToken={setAuthToken} />
+            <BrokerConnectButton
+              setAuthLink={setAuthLink}
+              integrationId={integrationId}
+              customRequestBody={customRequestBody}
+            />
+          </div>
+
+          <div style={styles.buttonContainer}>
+            <MeshConnectButton
+              setAuthLink={setAuthLink}
+              setLinkToken={setLinkToken}
+              setAuthToken={setAuthToken}
+              customRequestBody={customRequestBody}
+            />
           </div>
 
           <div style={styles.holdingsContainer}>
@@ -129,6 +153,18 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
+  },
+  inputContainer: {
+    marginBottom: '20px',
+  },
+  textarea: {
+    width: '100%',
+    height: '100px',
+    padding: '10px',
+    fontSize: '1rem',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    resize: 'vertical',
   },
   buttonContainer: {
     display: 'flex',

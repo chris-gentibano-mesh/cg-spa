@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createLink } from '@meshconnect/web-link-sdk';
 
-const BrokerConnectButton = ({ authLink, integrationId }) => {
+const BrokerConnectButton = ({ setAuthLink, integrationId, customRequestBody }) => {
   const [linkConnection, setLinkConnection] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
 
@@ -26,8 +26,9 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
     if (linkConnection && linkToken) {
       linkConnection.openLink(linkToken);
     }
-  }, [linkConnection, authLink, linkToken]);
+  }, [linkConnection, linkToken]);
 
+  const requestBody = customRequestBody || JSON.stringify({ integrationId });
   const fetchLinkToken = async () => {
     try {
       const response = await fetch('/api/brokerlinktoken', {
@@ -36,7 +37,7 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ integrationId }),
+        body: requestBody,
       });
 
       if (!response.ok) {
@@ -60,7 +61,7 @@ const BrokerConnectButton = ({ authLink, integrationId }) => {
   return (
     <div>
       <button onClick={handleButtonClick} style={styles.button}>
-        Open Specified Broker
+        {customRequestBody ? 'Open Custom Body' : 'Open Specified Broker'}
       </button>
     </div>
   );
