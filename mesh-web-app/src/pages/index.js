@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import MeshConnectButton from '../components/MeshConnectButton';
 import BrokerConnectButton from '../components/BrokerConnectButton';
 import HoldingsButton from '../components/HoldingsButton';
 import NetworksList from '../components/NetworksList';
 import TransfersButton from '../components/TransfersButton';
+import BrokerDropDown from '../components/BrokerDropDown'; 
 
 const App = () => {
   const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394'); // hard coded Metamask since this is the first choice
@@ -12,7 +12,6 @@ const App = () => {
   const [authLink, setAuthLink] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
   const [activeTab, setActiveTab] = useState('connect'); 
-  const router = useRouter();
 
   const handleIntegrationChange = (event) => {
     setIntegrationId(event.target.value);
@@ -49,14 +48,10 @@ const App = () => {
 
       {activeTab === 'Link' && (
         <div style={styles.contentContainer}>
-          <div style={styles.dropdownContainer}>
-            <label htmlFor="integrationId">Select Broker: </label>
-            <select id="integrationId" value={integrationId} onChange={handleIntegrationChange} style={styles.dropdown}>
-              <option value="34aeb688-decb-485f-9d80-b66466783394">Metamask</option>
-              <option value="47624467-e52e-4938-a41a-7926b6c27acf">Coinbase</option>
-              {/* Add more options as needed */}
-            </select>
-          </div>
+          <BrokerDropDown 
+            integrationId={integrationId} 
+            handleIntegrationChange={handleIntegrationChange} 
+          />
 
           <div style={styles.buttonContainer}>
             <BrokerConnectButton setAuthLink={setAuthLink} setLinkToken={setLinkToken} integrationId={integrationId} />
@@ -82,14 +77,14 @@ const App = () => {
       {activeTab === 'networks' && (
         <div style={styles.contentContainer}>
           <h2>Networks</h2>
-            <NetworksList />
+          <NetworksList />
         </div>
       )}
 
       {activeTab === 'transfers' && (
         <div style={styles.contentContainer}>
           <h2>Transfers</h2>
-            <TransfersButton />
+          <TransfersButton />
         </div>
       )}
     </div>
@@ -141,16 +136,6 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-  },
-  dropdownContainer: {
-    marginBottom: '20px',
-  },
-  dropdown: {
-    padding: '10px',
-    fontSize: '1rem',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    cursor: 'pointer',
   },
   buttonContainer: {
     display: 'flex',
