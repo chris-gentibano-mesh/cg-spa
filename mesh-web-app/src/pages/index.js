@@ -7,7 +7,8 @@ import NetworksList from '../components/NetworksList';
 import TransfersButton from '../components/TransfersButton';
 import BrokerDropDown from '../components/BrokerDropDown';
 import LinkRequestBody from '../components/LinkRequestBody';
-import styles from '../App.module.css';
+import TabNavigation from '../components/TabNavigation';
+import styles from '../App.module.css'; // Import the CSS module
 
 const App = () => {
   const [integrationId, setIntegrationId] = useState('34aeb688-decb-485f-9d80-b66466783394');
@@ -22,33 +23,14 @@ const App = () => {
   };
 
   const handleRequestBodyChange = (value) => {
-    setCustomRequestBody(value); 
+    setCustomRequestBody(value); // Update customRequestBody in App component
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Try Mesh Below</h1>
 
-      <div className={styles.tabContainer}>
-        <button
-          className={activeTab === 'Link' ? styles.activeTabButton : styles.tabButton}
-          onClick={() => handleTabChange('Link')}
-        >
-          Link
-        </button>
-        <button
-          className={activeTab === 'networks' ? styles.activeTabButton : styles.tabButton}
-          onClick={() => handleTabChange('networks')}
-        >
-          Fetch Networks
-        </button>
-        <button
-          className={activeTab === 'transfers' ? styles.activeTabButton : styles.tabButton}
-          onClick={() => handleTabChange('transfers')}
-        >
-          Transfers
-        </button>
-      </div>
+      <TabNavigation activeTab={activeTab} handleTabChange={handleTabChange} />
 
       {activeTab === 'Link' && (
         <div className={styles.contentContainer}>
