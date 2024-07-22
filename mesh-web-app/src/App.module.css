@@ -82,3 +82,19 @@
   overflow-x: auto;
 }
 
+/* src/App.module.css */
+.responseBox {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  max-width: 800px; /* Adjust as needed */
+  overflow-x: auto; /* For horizontal scroll if needed */
+}
+
+.responseBox pre {
+  white-space: pre-wrap; /* Wrap long lines */
+  word-wrap: break-word; /* Break long words */
+  margin: 0;
+}

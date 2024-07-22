@@ -23,7 +23,11 @@ const App = () => {
   };
 
   const handleRequestBodyChange = (value) => {
-    setCustomRequestBody(value); // Update customRequestBody in App component
+    setCustomRequestBody(value);
+  };
+
+  const handleLinkTokenReceived = (token) => {
+    setLinkToken(token); // Update the state with the received token
   };
 
   return (
@@ -43,15 +47,15 @@ const App = () => {
               setAuthLink={setAuthLink}
               integrationId={integrationId}
               customRequestBody={customRequestBody}
+              onLinkTokenReceived={handleLinkTokenReceived} // Pass the callback function
             />
           </div>
 
           <div className={styles.buttonContainer}>
             <MeshConnectButton
-              setAuthLink={setAuthLink}
-              setLinkToken={setLinkToken}
+              authLink={authLink}
               setAuthToken={setAuthToken}
-              customRequestBody={customRequestBody}
+              onLinkTokenReceived={handleLinkTokenReceived} // Pass the callback function
             />
           </div>
 
@@ -65,6 +69,13 @@ const App = () => {
               </div>
             )}
           </div>
+
+          {linkToken && (
+            <div className={styles.responseBox}>
+              <h2>Link Token Response</h2>
+              <pre>{JSON.stringify({ linkToken }, null, 2)}</pre>
+            </div>
+          )}
         </div>
       )}
 

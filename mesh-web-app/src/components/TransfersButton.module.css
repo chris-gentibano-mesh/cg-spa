@@ -1,0 +1,114 @@
+.container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.addressContainer {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.dropdownContainer {
+  margin: 10px 0;
+}
+
+.label {
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+.select {
+  padding: 5px;
+  font-size: 1rem;
+}
+
+.input {
+  padding: 5px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.addButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.removeButton {
+  padding: 5px 10px;
+  font-size: 0.875rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.submitButton {
+  padding: 5px 10px;
+  font-size: 0.875rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.error {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: red;
+}
+
+.submittedContainer {
+  margin-top: 20px;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.submittedAddressItem {
+  margin-bottom: 10px;
+}
+
+.removeSubmittedButton {
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: bold; /* Bold the X */
+}

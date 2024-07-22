@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createLink } from '@meshconnect/web-link-sdk';
 
-const MeshConnectButton = ({ authLink, setAuthToken }) => {
+const MeshConnectButton = ({ authLink, setAuthToken, onLinkTokenReceived }) => {
   const [linkConnection, setLinkConnection] = useState(null);
   const [linkToken, setLinkToken] = useState(null);
 
@@ -48,7 +48,11 @@ const MeshConnectButton = ({ authLink, setAuthToken }) => {
 
       const data = await response.json();
       console.log(data);
-      setLinkToken(data.content.linkToken);
+      const token = data.content.linkToken;
+      setLinkToken(token);
+      if (onLinkTokenReceived) {
+        onLinkTokenReceived(token); // Pass the token up to the parent
+      }
     } catch (error) {
       console.error('Error obtaining link token:', error);
     }
