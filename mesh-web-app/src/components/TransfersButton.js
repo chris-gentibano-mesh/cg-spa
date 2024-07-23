@@ -52,7 +52,7 @@ const TransfersButton = ({ authToken }) => {
       const requestBody = prepareRequestBody();
       console.log('Request body:', requestBody);
 
-      const response = await fetch('/api/linktoken', {
+      const response = await fetch('/api/transfersLinkToken', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

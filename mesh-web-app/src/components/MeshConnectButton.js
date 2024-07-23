@@ -33,7 +33,7 @@ const MeshConnectButton = ({ authLink, setAuthToken, onLinkTokenReceived }) => {
 
   const fetchLinkToken = async () => {
     try {
-      const response = await fetch('/api/linktoken', {
+      const response = await fetch('/api/linkToken', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
