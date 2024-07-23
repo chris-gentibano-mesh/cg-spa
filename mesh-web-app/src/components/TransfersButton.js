@@ -1,47 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import styles from './TransfersButton.module.css'; // Import the CSS module
+import { createLink } from '@meshconnect/web-link-sdk';
+import styles from './TransfersButton.module.css';
 
 const TransfersButton = ({ authToken }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectedNetwork, setSelectedNetwork] = useState('');
-  const [selectedAsset, setSelectedAsset] = useState('');
-  const [assets, setAssets] = useState([]);
+  const [linkToken, setLinkToken] = useState(null);
+  const [linkConnection, setLinkConnection] = useState(null);
   const [addresses, setAddresses] = useState([{ network: '', asset: '', address: '' }]);
   const [submittedAddresses, setSubmittedAddresses] = useState([]);
+  const [amountInFiat, setAmountInFiat] = useState('');
+  const [submittedAmountInFiat, setSubmittedAmountInFiat] = useState(null);
+
+  const userId = process.env.MESH_USERID;
+  const transactionId = 'TransactionId'; // Replace with actual transactionId if necessary
 
   // Map network names to IDs (Replace these with actual network IDs)
   const networkIdMap = {
-    'Solana': 'solana-network-id',
-    'Polygon': 'polygon-network-id',
-    'Ethereum': 'ethereum-network-id'
+    'Solana': '0291810a-5947-424d-9a59-e88bb33e999d',
+    'Polygon': '7436e9d0-ba42-4d2b-b4c0-8e4e606b2c12',
+    'Ethereum': 'e3c7fdd8-b1fc-4e51-85ae-bb276e075611'
   };
 
   // Prepare the request body
   const prepareRequestBody = () => {
-    const toAddresses = addresses.map(({ network, asset, address }) => ({
-      networkId: networkIdMap[network] || '', // Map network to ID
+    const toAddresses = submittedAddresses.map(({ network, asset, address }) => ({
+      networkId: networkIdMap[network] || '',
       symbol: asset,
       address,
     }));
 
     return {
-      transferOptions: {
-        toAddresses,
+      UserId: userId,
+      TransferOptions: {
+        toAddresses: toAddresses,
+        amountInFiat: parseFloat(submittedAmountInFiat) || 0,
+        transactionId: transactionId,
+        fundingOptions: {
+          enabled: true
+        },
       },
-      restrictMultipleAccounts: true,
-      userId: '123456', // Replace with actual userId if necessary
-      enableTransfers: true // Add enableTransfers parameter
     };
   };
 
   // Function to fetch the link token
   const fetchLinkToken = async () => {
-    if (!authToken) {
-      setError("Auth token is not available");
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
@@ -53,9 +56,7 @@ const TransfersButton = ({ authToken }) => {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Client-Id': process.env.NEXT_PUBLIC_MESH_CLIENTID,
-          'X-Client-Secret': process.env.NEXT_PUBLIC_MESH_APIKEY,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestBody),
       });
@@ -67,7 +68,8 @@ const TransfersButton = ({ authToken }) => {
       const data = await response.json();
       console.log('LinkToken response:', data);
 
-      // Handle the response as needed
+      const token = data.content.linkToken;
+      setLinkToken(token);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -80,11 +82,38 @@ const TransfersButton = ({ authToken }) => {
     fetchLinkToken();
   };
 
+  useEffect(() => {
+    if (linkToken && linkConnection) {
+      linkConnection.openLink(linkToken);
+    }
+  }, [linkToken, linkConnection]);
+
+  useEffect(() => {
+    const link = createLink({
+      clientId: process.env.NEXT_PUBLIC_MESH_CLIENTID,
+      onIntegrationConnected: (data) => {
+        console.log('Integration connected:', data);
+        // if (data && data.accessToken) {
+        //   // Handle access token setup or further actions here
+        // }
+      },
+      onExit: (error) => {
+        if (error) {
+          console.error('Link exited with error:', error);
+        } else {
+          console.log('Link exited successfully');
+        }
+      }
+    });
+    setLinkConnection(link);
+  }, []);
+
   const fetchAssets = (network) => {
     switch (network) {
       case 'Solana':
-      case 'Polygon':
         return ['USDC', 'SOL', 'USDT'];
+      case 'Polygon':
+        return ['MATIC', 'USDC', 'USDT'];
       case 'Ethereum':
         return ['ETH', 'LEO', 'TUSD', 'GRT', 'SHIB', 'MATIC', 'QNT', 'WBTC', 'AAVE', 'UNI', 'SNX', 'CRO', 'RNDR'];
       default:
@@ -92,27 +121,17 @@ const TransfersButton = ({ authToken }) => {
     }
   };
 
-  useEffect(() => {
-    const updatedAddresses = addresses.map(address => ({
-      ...address,
-      asset: fetchAssets(address.network).includes(address.asset) ? address.asset : '',
-    }));
-    setAddresses(updatedAddresses);
-  }, [selectedNetwork]);
-
   const handleNetworkChange = (index, value) => {
     const updatedAddresses = [...addresses];
     updatedAddresses[index].network = value;
     updatedAddresses[index].asset = ''; // Reset asset when network changes
     setAddresses(updatedAddresses);
-    setSelectedNetwork(value);
   };
 
   const handleAssetChange = (index, value) => {
     const updatedAddresses = [...addresses];
     updatedAddresses[index].asset = value;
     setAddresses(updatedAddresses);
-    setSelectedAsset(value);
   };
 
   const handleAddressChange = (index, value) => {
@@ -125,37 +144,61 @@ const TransfersButton = ({ authToken }) => {
     setAddresses([...addresses, { network: '', asset: '', address: '' }]);
   };
 
-  const handleRemoveAddress = (index) => {
-    const updatedAddresses = addresses.filter((_, i) => i !== index);
-    setAddresses(updatedAddresses);
-  };
-
   const handleSubmitAddress = (index) => {
-    // Add address to the submitted list
     const addressToSubmit = addresses[index];
     if (addressToSubmit.network && addressToSubmit.asset && addressToSubmit.address) {
-      setSubmittedAddresses([...submittedAddresses, addressToSubmit]);
-      // Optionally, clear the address field after submission
-      const updatedAddresses = addresses.map((addr, i) =>
-        i === index ? { ...addr, network: '', asset: '', address: '' } : addr
+      setSubmittedAddresses(prev => [
+        ...prev,
+        addressToSubmit
+      ]);
+      setAddresses(prev =>
+        prev.map((addr, i) =>
+          i === index ? { ...addr, network: '', asset: '', address: '' } : addr
+        )
       );
-      setAddresses(updatedAddresses);
     } else {
       setError('Please fill out all fields for the address before submitting.');
     }
   };
 
   const handleRemoveSubmittedAddress = (index) => {
-    const updatedSubmittedAddresses = submittedAddresses.filter((_, i) => i !== index);
-    setSubmittedAddresses(updatedSubmittedAddresses);
+    setSubmittedAddresses(prev => prev.filter((_, i) => i !== index));
   };
 
-  const isSubmitDisabled = () => {
-    return addresses.some(a => !a.network || !a.asset || !a.address);
+  const handleSubmitAmountInFiat = () => {
+    if (amountInFiat <= 0) {
+      setError('Please enter a valid amount in fiat.');
+    } else {
+      setError(null);
+      setSubmittedAmountInFiat(amountInFiat);
+      console.log('Amount in Fiat submitted:', amountInFiat);
+    }
+  };
+
+  // Function to check if the submit button should be disabled
+  const isSubmitButtonDisabled = () => {
+    return submittedAddresses.length === 0 || !submittedAmountInFiat || parseFloat(submittedAmountInFiat) <= 0;
   };
 
   return (
     <div className={styles.container}>
+      <div className={styles.amountContainer}>
+        <label className={styles.label}>Amount in Fiat:</label>
+        <input
+          type="number"
+          value={amountInFiat}
+          onChange={(e) => setAmountInFiat(e.target.value)}
+          className={styles.input}
+        />
+        <button onClick={handleSubmitAmountInFiat} className={styles.submitButton}>Submit Amount</button>
+      </div>
+
+      {submittedAmountInFiat !== null && (
+        <div className={styles.submittedAmountContainer}>
+          <h3>Submitted Amount in Fiat: ${submittedAmountInFiat}</h3>
+        </div>
+      )}
+
       {addresses.map((address, index) => (
         <div key={index} className={styles.addressContainer}>
           <div className={styles.dropdownContainer}>
@@ -201,9 +244,6 @@ const TransfersButton = ({ authToken }) => {
             <button onClick={() => handleSubmitAddress(index)} className={styles.submitButton}>
               Submit
             </button>
-            <button onClick={() => handleRemoveAddress(index)} className={styles.removeButton}>
-              Remove Address
-            </button>
           </div>
         </div>
       ))}
@@ -214,8 +254,8 @@ const TransfersButton = ({ authToken }) => {
 
       <button 
         onClick={handleButtonClick} 
-        className={styles.button} 
-        disabled={!authToken || loading || isSubmitDisabled()}
+        className={styles.button}
+        disabled={isSubmitButtonDisabled()} // Disable button if addresses are empty or amount is invalid
       >
         {loading ? 'Loading...' : 'Submit Transfer Request'}
       </button>
